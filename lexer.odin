@@ -1,5 +1,6 @@
 package ini
 
+import "core:fmt"
 import "core:unicode"
 import "core:unicode/utf8"
 

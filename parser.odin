@@ -1,5 +1,6 @@
 package ini
 
+import "core:strings"
 import "core:unicode"
 import "core:unicode/utf8"
 
@@ -8,8 +9,9 @@ import "core:unicode/utf8"
 INI :: distinct map[string]string
 
 ini_delete :: proc(i: ^INI) {
-	for k, _ in i {
-		delete(k)
+	for k, v in i {
+        delete(k)
+        delete(v)
 	}
 	delete(i^)
 }
@@ -85,7 +87,7 @@ parser_parse_token :: proc(using p: ^Parser, t: Token) -> Maybe(ParseResult) {
 			return parser_parse_token(p, value)
 		}
 
-		ini[key] = string(value.value)
+		ini[key] = strings.clone(string(value.value))
 	case .Section:
 		// Trim of the '[' and ']', no bounds check needed because they are required on lexer level.
 		#no_bounds_check curr_section = t.value[1:len(t.value) - 1]
