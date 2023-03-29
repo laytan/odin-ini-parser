@@ -31,6 +31,13 @@ Example usage:
         return
     }
     defer ini.ini_delete(config)
+
+	for k, v in config {
+		fmt.printf("[%q]\n", k)
+		for kk, vv in v {
+			fmt.printf("%q = %q\n", kk, vv)
+		}
+	}
   }
 
   get_config :: proc(config_file_path: string) -> Maybe(ini.INI) {
