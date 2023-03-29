@@ -111,23 +111,23 @@ parser_make_key :: proc(using p: ^Parser, suffix: []byte) -> string {
 	n := copy(keyb, curr_section)
 	nn := copy(keyb[n:], ".")
 	copy(keyb[n + nn:], suffix)
-	return string(to_lower_bytes(keyb))
+	return string(to_lower(keyb))
 }
 
-// iterates per-rune in reverse, changing any non-lowercase to lowercase.
 @(private = "file")
-to_lower_bytes :: proc(k: []byte) -> []byte {
-	key := k
-	i := len(key)
-	for i > 0 {
-		key_rune, key_rune_size := utf8.decode_last_rune(key[:i])
-		i -= key_rune_size
-		lw := unicode.to_lower(key_rune)
-		if key_rune != lw {
-			lw_bytes, lw_bytes_len := utf8.encode_rune(lw)
-			copy(key[i:], lw_bytes[:lw_bytes_len])
-		}
-	}
+to_lower :: proc(s: []byte) -> []byte {
+    s, i, n := s, 0, len(s)
 
-	return key
+    for i < n {
+        ch, ch_size := utf8.decode_rune(s[i:])
+        i += ch_size
+
+        lower_ch := unicode.to_lower(ch)
+        if ch != lower_ch {
+            lower_bytes := transmute([4]byte)lower_ch
+            copy(s[i-1:], lower_bytes[:ch_size])
+        }
+    }
+
+    return s
 }
