@@ -128,11 +128,7 @@ lexer_skip_whitespace :: proc(using l: ^Lexer) {
 }
 
 lexer_pos :: proc(using l: ^Lexer) -> Pos {
-	p: Pos
-	p.col = cursor - bol
-	p.line = line
-	p.offset = cursor
-	return p
+    return Pos{line = line, col = cursor-bol, offset = cursor}
 }
 
 // Reads until a non-escaped rune in check, a newline or the eof.
@@ -167,16 +163,15 @@ lexer_read_until :: proc(using l: ^Lexer, check: ..rune) -> (int, bool) {
 trim_trailing_right :: proc(k: []byte) -> []byte {
 	key := k
 	i := len(key)
-	is_trailing := true
 	for i > 0 {
 		key_rune, key_rune_size := utf8.decode_last_rune(key[:i])
 		i -= key_rune_size
-		if is_trailing && unicode.is_space(key_rune) {
-			key = key[:i]
-			continue
-		}
 
-		is_trailing = false
+        if !unicode.is_space(key_rune) {
+            break
+        }
+
+		key = key[:i]
 	}
 
 	return key
