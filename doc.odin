@@ -15,7 +15,6 @@ Format implemented:
  - Values are optional (defaults to an empty string)
  - Values can contain any character, are trimmed of whitespace, and end at the end of the line
  - Values can be wrapped in `'` or `"`, these will be stripped, but whitespace in them is sustained
- - If a value contains a `'` or `"`, a matching end quote has to be there, otherwise it should be escaped
 
 Example usage:
 

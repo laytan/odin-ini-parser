@@ -27,7 +27,6 @@ Token :: struct {
 }
 
 // Lexer tokenizes the given data into .ini semantic tokens.
-// No procedure on lexer allocates.
 // The given data is not writen to or modified.
 Lexer :: struct {
 	data:         []byte,
