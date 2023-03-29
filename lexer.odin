@@ -1,6 +1,6 @@
 package ini
 
-import "core:fmt"
+import "core:bytes"
 import "core:unicode"
 import "core:unicode/utf8"
 
@@ -88,7 +88,7 @@ lexer_next :: proc(using l: ^Lexer) -> Token {
 		if s, is_key := lexer_read_until(l, ':', '='); is_key {
 			t.type = .Key
 			// // Trim the whitespace between the key and the '='.
-			t.value = trim_trailing_right(data[s:bytes_cursor - 1])
+			t.value = bytes.trim_right_space(data[s:bytes_cursor - 1])
 		} else {
 			t.type = .Value
 			t.value = data[s:bytes_cursor - 1]
@@ -157,23 +157,4 @@ lexer_read_until :: proc(using l: ^Lexer, check: ..rune) -> (int, bool) {
 	}
 
 	return start_byte, false
-}
-
-// iterates per-rune in reverse, reslicing any trailing whitespace.
-@(private = "file")
-trim_trailing_right :: proc(k: []byte) -> []byte {
-	key := k
-	i := len(key)
-	for i > 0 {
-		key_rune, key_rune_size := utf8.decode_last_rune(key[:i])
-		i -= key_rune_size
-
-        if !unicode.is_space(key_rune) {
-            break
-        }
-
-		key = key[:i]
-	}
-
-	return key
 }
