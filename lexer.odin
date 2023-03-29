@@ -152,7 +152,8 @@ lexer_read_until :: proc(using l: ^Lexer, check: ..rune) -> (int, bool) {
 				}
 			}
 		}
-		escaped = ch == '\\'
+
+        escaped = escaped ? false : ch == '\\'
 	}
 
 	return start_byte, false
