@@ -2,7 +2,8 @@ package main
 
 import "core:fmt"
 import "core:os"
-import "pkg:ini"
+
+import ini ".."
 
 config_file_path :: "config.ini"
 

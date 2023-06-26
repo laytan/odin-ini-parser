@@ -1,0 +1,9 @@
+{
+	"version": "0.1.0",
+	"description": "INI file format lexer/parser",
+	"url": "https://github.com/laytan/odin-ini-parser",
+	"readme": "readme.md",
+	"license": "MIT",
+	"keywords": ["INI", "parser", "lexer"],
+	"dependencies": {}
+}
