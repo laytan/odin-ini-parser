@@ -16,7 +16,7 @@ main :: proc() {
 	defer ini.ini_delete(&config)
 
     for k, v in config {
-        fmt.printf("%q: %q\n", k, v)
+        fmt.printf("%v: %v\n", k, v)
     }
 }
 

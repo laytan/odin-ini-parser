@@ -142,7 +142,7 @@ lexer_read_until :: proc(using l: ^Lexer, check: ..rune) -> (int, bool) {
 		lexer_read(l)
 
 		if !escaped {
-			if ch == '\n' {
+			if ch == '\r' || ch == '\n' {
 				return start_byte, false
 			}
 
